@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useClickAway } from '@uidotdev/usehooks';
 
 import { cn } from '@/lib/utils';
-import { useClickAway } from '@uidotdev/usehooks';
 
 interface Props {
   children: React.ReactNode;

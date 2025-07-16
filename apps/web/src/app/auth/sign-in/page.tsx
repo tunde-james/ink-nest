@@ -1,5 +1,7 @@
 import Link from 'next/link';
+
 import SignInForm from './_components/sign-in-form';
+import { Button } from '@/components/ui/button';
 
 function SignIn() {
   return (
@@ -9,6 +11,10 @@ function SignIn() {
       <SignInForm />
 
       <Link href={'/auth/forgot-passowrd'}>Forgot Your Password?</Link>
+
+      <Button>
+        <a href={`${process.env.BACKEND_URL}/auth/google/login`}>Sign In With Google</a>
+      </Button>
     </div>
   );
 }

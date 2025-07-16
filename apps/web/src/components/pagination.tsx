@@ -47,6 +47,7 @@ const Pagination = ({
           {page === '...' ? '...' : <Link href={`?page=${page}`}>{page}</Link>}
         </button>
       ))}
+
       {/* next page button */}
       {currentPage !== totalPages && (
         <button className="rounded-md bg-slate-200 py-2 px-2">
