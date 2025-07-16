@@ -1,8 +1,14 @@
 import Link from 'next/link';
 
+import { getSession } from '@/lib/session';
+import SignInPanel from './sign-in-panel';
+import Profile from './profile';
+
 type Props = {};
 
-function Navbar(props: Props) {
+async function Navbar(props: Props) {
+  const session = await getSession();
+
   return (
     <>
       <h1 className="text-2xl font-bold p-2">Ink Nest</h1>
@@ -11,6 +17,12 @@ function Navbar(props: Props) {
         <Link href="/">Blog</Link>
         <Link href="#about">About</Link>
         <Link href="#contact">Contact</Link>
+
+        {session && session.user ? (
+          <Profile user={session.user} />
+        ) : (
+          <SignInPanel />
+        )}
       </div>
     </>
   );
