@@ -10,6 +10,7 @@ import { SignUpFormState } from '../types/form-state';
 import { SignUpFormSchema } from '../zod-schemas/sign-up-form-schema';
 import { CREATE_USER_MUTATION, SIGN_IN_MUTATION } from '../gql-queries';
 import { LoginFormSchema } from '../zod-schemas/login-form-schema';
+import { createSession } from '../session';
 
 export async function signUp(
   state: SignUpFormState,
@@ -70,7 +71,14 @@ export async function signIn(
     };
   }
 
-  // Create Session for the user
+  await createSession({
+    user: {
+      id: data.signIn.id,
+      name: data.signIn.name,
+      avatar: data.signIn.avatar,
+    },
+    accessToken: data.signIn.accessToken,
+  });
 
   revalidatePath('/');
   redirect('/');
