@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { fetchPostById } from '@/lib/actions/posts-actions';
 import SanitizedContent from './_components/sanitized-content';
 import Comments from './_components/comments';
+import { getSession } from '@/lib/session';
 
 interface Props {
   params: { id: string };
@@ -11,6 +12,7 @@ interface Props {
 async function PostPage({ params }: Props) {
   const postId = (await params).id;
   const post = await fetchPostById(+postId);
+  const session = await getSession();
 
   if (!post) {
     return <div>Post not found</div>;
@@ -36,7 +38,7 @@ async function PostPage({ params }: Props) {
 
       <SanitizedContent content={post.content || ''} />
 
-      <Comments postId={post.id} />
+      <Comments user={session?.user} postId={post.id} />
     </main>
   );
 }

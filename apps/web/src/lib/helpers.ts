@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE_SIZE } from './contants';
+import { DEFAULT_PAGE_SIZE } from './constants';
 
 export function transformTakeSkip({
   page,

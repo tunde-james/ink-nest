@@ -1,7 +1,7 @@
 import Hero from '@/components/hero';
 import Posts from '@/components/posts';
 import { fetchPosts } from '@/lib/actions/posts-actions';
-import { DEFAULT_PAGE_SIZE } from '@/lib/contants';
+import { DEFAULT_PAGE_SIZE } from '@/lib/constants';
 import { getSession } from '@/lib/session';
 
 interface Props {
