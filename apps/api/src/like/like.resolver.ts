@@ -32,7 +32,7 @@ export class LikeResolver {
   }
 
   @Query(() => Int)
-  async postLikeCount(@Args('postId', { type: () => Int }) postId: number) {
+  async postLikesCount(@Args('postId', { type: () => Int }) postId: number) {
     return await this.likeService.gePostLikesCount(postId);
   }
 

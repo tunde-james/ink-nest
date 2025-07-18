@@ -4,6 +4,7 @@ import { fetchPostById } from '@/lib/actions/posts-actions';
 import SanitizedContent from './_components/sanitized-content';
 import Comments from './_components/comments';
 import { getSession } from '@/lib/session';
+import Like from './_components/like';
 
 interface Props {
   params: { id: string };
@@ -37,6 +38,8 @@ async function PostPage({ params }: Props) {
       </div>
 
       <SanitizedContent content={post.content || ''} />
+
+      <Like postId={post.id} user={session?.user} />
 
       <Comments user={session?.user} postId={post.id} />
     </main>
