@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { fetchPostById } from '@/lib/actions/posts-actions';
 import SanitizedContent from './_components/sanitized-content';
+import Comments from './_components/comments';
 
 interface Props {
   params: { id: string };
@@ -35,7 +36,7 @@ async function PostPage({ params }: Props) {
 
       <SanitizedContent content={post.content || ''} />
 
-      {/* TODO: Pust Post Comments Here  */}
+      <Comments postId={post.id} />
     </main>
   );
 }
