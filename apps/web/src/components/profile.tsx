@@ -45,7 +45,7 @@ function Profile({ user }: Props) {
             <span>Create New Post</span>
           </Link>
 
-          <Link href="/user/create-post">
+          <Link href="/user/posts">
             <ListBulletIcon className="w-4" />
             <span>Posts</span>
           </Link>

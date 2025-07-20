@@ -13,7 +13,7 @@ const generateSlug = (title: string): string => {
 };
 
 async function main() {
-  const plainPassword = '123456';
+  const plainPassword = 'Y12345678@';
   const passwordHash = await argon2.hash(plainPassword);
 
   const users = Array.from({ length: 10 }).map(() => ({
