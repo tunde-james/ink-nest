@@ -14,6 +14,7 @@ import { Post } from '../types/model-types';
 import { transformTakeSkip } from '../helpers';
 import { PostFormState } from '../types/form-state';
 import { PostFormSchema } from '../zod-schemas/post-form-schema';
+import { uploadThumbnail } from '../upload-file';
 
 export async function fetchPosts({
   page,
@@ -69,8 +70,11 @@ export async function saveNewPost(
     };
   }
 
-  // TODO: Upload thumbnail to Supabase
-  const thumbnailUrl = '';
+  let thumbnailUrl;
+
+  if (validatedFields.data.thumbnail) {
+    thumbnailUrl = await uploadThumbnail(validatedFields.data.thumbnail);
+  }
 
   const data = await authFetchGraphQL(print(CREATE_POST_MUTATION), {
     input: {
