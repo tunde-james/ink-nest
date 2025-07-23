@@ -6,13 +6,14 @@ import { Button } from './ui/button';
 
 interface ButtonProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-function SubmitButton({ children }: ButtonProps) {
+function SubmitButton({ children, className }: ButtonProps) {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" aria-disabled={pending}>
+    <Button type="submit" aria-disabled={pending} className={className}>
       {pending ? (
         <span className="animate-pulse">Submitting...</span>
       ) : (

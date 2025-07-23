@@ -1,11 +1,19 @@
 'use server';
 
 import { print } from 'graphql';
+import { z } from 'zod';
 
 import { authFetchGraphQL, fetchGraphQL } from '../fetch-graphql';
-import { GET_POST_BY_ID, GET_POSTS, GET_USER_POSTS } from '../gql-queries';
+import {
+  CREATE_POST_MUTATION,
+  GET_POST_BY_ID,
+  GET_POSTS,
+  GET_USER_POSTS,
+} from '../gql-queries';
 import { Post } from '../types/model-types';
 import { transformTakeSkip } from '../helpers';
+import { PostFormState } from '../types/form-state';
+import { PostFormSchema } from '../zod-schemas/post-form-schema';
 
 export async function fetchPosts({
   page,
@@ -43,5 +51,43 @@ export async function fetchUserPosts({
   return {
     posts: data.getUserPosts as Post[],
     totalPosts: data.userPostCount as number,
+  };
+}
+
+export async function saveNewPost(
+  state: PostFormState,
+  formData: FormData
+): Promise<PostFormState> {
+  const validatedFields = PostFormSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
+
+  if (!validatedFields.success) {
+    return {
+      data: Object.fromEntries(formData.entries()),
+      errors: z.flattenError(validatedFields.error).fieldErrors,
+    };
+  }
+
+  // TODO: Upload thumbnail to Supabase
+  const thumbnailUrl = '';
+
+  const data = await authFetchGraphQL(print(CREATE_POST_MUTATION), {
+    input: {
+      ...validatedFields.data,
+      thumbnail: thumbnailUrl,
+    },
+  });
+
+  if (data) {
+    return {
+      message: 'Success! New post saved.',
+      ok: true,
+    };
+  }
+
+  return {
+    message: 'Oops, something went wrong!',
+    data: Object.fromEntries(formData.entries()),
   };
 }

@@ -3,7 +3,11 @@ interface Props {
 }
 
 function PostLayout({ children }: Props) {
-  return <div className="pt-24">{children}</div>;
+  return (
+    <div className="pt-24 flex flex-col justify-center items-center">
+      {children}
+    </div>
+  );
 }
 
 export default PostLayout;
