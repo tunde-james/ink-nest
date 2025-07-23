@@ -69,4 +69,15 @@ export class PostResolver {
 
     return await this.postService.create({ createPostInput, authorId });
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Post)
+  async updatePost(
+    @Context() context,
+    @Args('updatePostInput') updatePostInput: UpdatePostInput,
+  ) {
+    const userId = context.req.user.id;
+
+    return await this.postService.update({ userId, updatePostInput });
+  }
 }

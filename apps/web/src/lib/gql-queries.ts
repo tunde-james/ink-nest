@@ -22,6 +22,7 @@ export const GET_POST_BY_ID = gql`
       thumbnail
       content
       createdAt
+      published
       author {
         name
       }
@@ -117,6 +118,14 @@ export const GET_USER_POSTS = gql`
 export const CREATE_POST_MUTATION = gql`
   mutation createPostMutation($input: CreatePostInput!) {
     createPost(createPostInput: $input) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_POST_MUTATION = gql`
+  mutation updatePostMutation($input: UpdatePostInput!) {
+    updatePost(updatePostInput: $input) {
       id
     }
   }

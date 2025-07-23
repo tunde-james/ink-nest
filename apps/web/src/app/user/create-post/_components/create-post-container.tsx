@@ -7,8 +7,7 @@ import UpsertPostForm from './upsert-post-form';
 function CreatePostContainer() {
   const [state, action] = useActionState(saveNewPost, undefined);
 
-  return <UpsertPostForm state={state} formAction={action}/>;
+  return <UpsertPostForm state={state} formAction={action} isUpdate={false} />;
 }
 
 export default CreatePostContainer;
- 

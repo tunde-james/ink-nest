@@ -1,21 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
+import SubmitButton from '@/components/submit-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import SubmitButton from '@/components/submit-button';
 import { PostFormState } from '@/lib/types/form-state';
 import { toast } from 'sonner';
 
-interface Props {
+type Props = {
   state: PostFormState;
   formAction: (payload: FormData) => void;
-}
-
-function UpsertPostForm({ state, formAction }: Props) {
+  isUpdate?: boolean;
+};
+const UpsertPostForm = ({ state, formAction, isUpdate }: Props) => {
   const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
@@ -31,12 +31,16 @@ function UpsertPostForm({ state, formAction }: Props) {
       action={formAction}
       className="flex flex-col gap-5 [&>div>label]:text-slate-500 [&>div>input]:transition [&>div>textarea]:transition"
     >
+      {isUpdate && (
+        <input hidden name="postId" defaultValue={state?.data?.postId} />
+      )}
+
       <div>
         <Label htmlFor="title">Title</Label>
         <Input
           id="title"
           name="title"
-          placeholder="Enter your post title"
+          placeholder="Enter The Title of Your Post"
           defaultValue={state?.data?.title}
         />
       </div>
@@ -49,36 +53,38 @@ function UpsertPostForm({ state, formAction }: Props) {
         <Textarea
           id="content"
           name="content"
-          placeholder="Write your post content here"
-          rows={8}
+          placeholder="Write Your Post Content Here"
+          rows={6}
           defaultValue={state?.data?.content}
         />
       </div>
       {!!state?.errors?.content && (
         <p className="text-red-500 animate-shake">{state.errors.content}</p>
       )}
-
       <div>
-        <Label htmlFor="thumbnail"></Label>
+        <Label htmlFor="thumbnail">Thumbnail</Label>
         <Input
-          type="file"
           id="thumbnail"
+          type="file"
           name="thumbnail"
           accept="image/*"
-          onChange={(event) => {
-            if (event.target.files) {
-              setImageUrl(URL.createObjectURL(event.target.files[0]));
-            }
+          onChange={(e) => {
+            if (e.target.files)
+              setImageUrl(URL.createObjectURL(e.target.files[0]));
           }}
         />
         {!!state?.errors?.thumbnail && (
           <p className="text-red-500 animate-shake">{state.errors.thumbnail}</p>
         )}
-        {!!imageUrl && (
-          <Image src={imageUrl} alt="post thumbnail" height={150} width={200} />
+        {(!!imageUrl || !!state?.data?.previousThumbnailUrl) && (
+          <Image
+            src={(imageUrl || state?.data?.previousThumbnailUrl) ?? ''}
+            alt="post thumbnail"
+            width={200}
+            height={150}
+          />
         )}
       </div>
-
       <div>
         <Label htmlFor="tags">Tags (comma-separated)</Label>
         <Input
@@ -91,24 +97,23 @@ function UpsertPostForm({ state, formAction }: Props) {
       {!!state?.errors?.tags && (
         <p className="text-red-500 animate-shake">{state.errors.tags}</p>
       )}
-
       <div className="flex items-center">
         <input
-          type="checkbox"
           id="published"
+          className="mx-2 w-4 h-4"
+          type="checkbox"
           name="published"
-          className="mx-2 h-4 w-4"
-          defaultValue={state?.data?.published}
+          defaultChecked={state?.data?.published === 'on' ? true : false}
         />
-        <Label htmlFor="published">Publish Now</Label>
+        <Label htmlFor="published">Published Now</Label>
       </div>
       {!!state?.errors?.isPublished && (
         <p className="text-red-500 animate-shake">{state.errors.isPublished}</p>
       )}
 
-      <SubmitButton className="bg-blue-700">Save</SubmitButton>
+      <SubmitButton>Save</SubmitButton>
     </form>
   );
-}
+};
 
 export default UpsertPostForm;

@@ -1,5 +1,4 @@
 import CreatePostContainer from './_components/create-post-container';
-import UpsertPostForm from './_components/upsert-post-form';
 
 function CreatePostPage() {
   return (
