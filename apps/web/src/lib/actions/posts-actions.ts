@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { authFetchGraphQL, fetchGraphQL } from '../fetch-graphql';
 import {
   CREATE_POST_MUTATION,
+  DELETE_POST_MUTATION,
   GET_POST_BY_ID,
   GET_POSTS,
   GET_USER_POSTS,
@@ -138,4 +139,12 @@ export async function updatePost(
     message: 'Oops, something went wrong!',
     data: Object.fromEntries(formData.entries()),
   };
+}
+
+export async function deletePost(postId: number) {
+  const data = await authFetchGraphQL(print(DELETE_POST_MUTATION), {
+    postId,
+  });
+
+  return data.deletePost;
 }
